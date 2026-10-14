@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grammar Memory: Travel Phrasal Verbs</title>
+    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-image: url('https://www.itsfrontporch.com/wp-content/uploads/6359524176194484221446729975_travel-01.jpg');
+            background-size: cover; background-position: center;
+            background-repeat: no-repeat; background-attachment: fixed;
+            min-height: 100vh; display: flex; flex-direction: column;
+            align-items: center; padding: 20px; color: #f8fafc;
+            position: relative; overflow-x: hidden;
+        }
+        body::before {
+            content: ''; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(9, 10, 15, 0.6); z-index: -2;
+        }
+        .stars-container {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; z-index: -1;
+        }
+        .star {
+            position: absolute; background: white; border-radius: 50%;
+            animation: twinkle var(--duration) ease-in-out infinite; opacity: 0;
+        }
+        @keyframes twinkle {
+            0%, 100% { opacity: 0; transform: scale(0.5); }
+            50% { opacity: var(--max-opacity); transform: scale(1); }
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0) translateX(0); }
+            25% { transform: translateY(-20px) translateX(10px); }
+            50% { transform: translateY(-10px) translateX(-10px); }
+            75% { transform: translateY(-25px) translateX(5px); }
+        }
+        .floating-element {
+            position: fixed; pointer-events: none; z-index: 0; opacity: 0.3;
+            animation: float 8s ease-in-out infinite; font-size: 2em;
+        }
+        .floating-element:nth-child(4) { top: 15%; left: 10%; animation-delay: 0s; }
+        .floating-element:nth-child(5) { top: 70%; right: 15%; animation-delay: 2s; }
+        .floating-element:nth-child(6) { bottom: 20%; left: 20%; animation-delay: 4s; }
+        @keyframes magicParticles {
+            0% { opacity: 0; transform: translateY(0) translateX(0) scale(0); }
+            50% { opacity: 1; }
+            100% { opacity: 0; transform: translateY(-100px) translateX(50px) scale(1); }
+        }
+        .magic-particle {
+            position: fixed; width: 4px; height: 4px;
+            background: rgba(192, 132, 252, 0.8); border-radius: 50%;
+            pointer-events: none; z-index: 0;
+            box-shadow: 0 0 10px rgba(192, 132, 252, 0.8);
+            animation: magicParticles 4s ease-in-out infinite;
+        }
+        .game-container {
+            position: relative; z-index: 10;
+            background: rgba(255, 255, 255, 0.06);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 24px; padding: 30px;
+            max-width: 700px; width: 100%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        }
+        .back-link {
+            display: inline-block; margin-bottom: 20px; color: #c084fc;
+            text-decoration: none; font-weight: 600; font-family: 'Comfortaa', cursive;
+        }
+        .back-link:hover { color: #e9d5ff; }
+        header { text-align: center; margin-bottom: 25px; }
+        h1 {
+            font-family: 'Comfortaa', cursive; font-size: 2.2em; font-weight: 700;
+            background: linear-gradient(90deg, #c084fc, #ffffff, #60a5fa, #c084fc);
+            background-size: 300% auto;
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            animation: shimmer 5s linear infinite; margin-bottom: 8px;
+        }
+        @keyframes shimmer {
+            0% { background-position: -200% center; }
+            100% { background-position: 200% center; }
+        }
+        .subtitle { color: #c4b5fd; font-size: 1.1em; text-shadow: 0 0 20px rgba(192, 132, 252, 0.3); }
+        .student-form {
+            background: rgba(255, 255, 255, 0.06);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 24px; padding: 40px;
+            text-align: center; max-width: 500px; margin: 0 auto 40px;
+        }
+        .student-form h2 {
+            font-family: 'Comfortaa', cursive; font-size: 1.8em;
+            margin-bottom: 20px; color: #c084fc;
+        }
+        .student-form p { margin-bottom: 25px; color: #94a3b8; }
+        .name-input {
+            width: 100%; max-width: 300px; padding: 14px 20px;
+            background: rgba(0, 0, 0, 0.3);
+            border: 2px solid rgba(192, 132, 252, 0.3);
+            border-radius: 12px; color: #fff;
+            font-size: 1.1em; text-align: center; margin-bottom: 20px;
+        }
+        .name-input::placeholder { color: rgba(255, 255, 255, 0.3); }
+        .name-input:focus {
+            outline: none; border-color: #c084fc;
+            box-shadow: 0 0 20px rgba(192, 132, 252, 0.3);
+        }
+        .btn-start {
+            padding: 14px 40px;
+            background: linear-gradient(135deg, #a78bfa 0%, #60a5fa 100%);
+            color: white; border: none; border-radius: 50px;
+            font-family: 'Comfortaa', cursive; font-size: 1.1em;
+            font-weight: 700; cursor: pointer; transition: all 0.3s;
+        }
+        .btn-start:hover { transform: translateY(-3px); }
+        .mode-selector {
+            display: flex; gap: 15px; justify-content: center; margin-bottom: 25px;
+            background: linear-gradient(135deg, rgba(192, 132, 252, 0.2), rgba(96, 165, 250, 0.2));
+            border: 1px solid rgba(192, 132, 252, 0.3);
+            padding: 15px; border-radius: 16px;
+        }
+        .mode-btn {
+            padding: 12px 30px; border: 2px solid rgba(192, 132, 252, 0.4);
+            border-radius: 12px; background: rgba(192, 132, 252, 0.1);
+            color: #e9d5ff; font-family: 'Comfortaa', cursive; font-weight: 700;
+            cursor: pointer; transition: all 0.3s;
+        }
+        .mode-btn.active {
+            background: linear-gradient(135deg, rgba(192, 132, 252, 0.4), rgba(96, 165, 250, 0.4));
+            border-color: #c084fc; color: white;
+            box-shadow: 0 0 20px rgba(192, 132, 252, 0.5);
+        }
+        .mode-btn:hover:not(.active) {
+            background: rgba(192, 132, 252, 0.2); border-color: #a78bfa;
+        }
+        .score-board {
+            display: flex; justify-content: space-around; align-items: center;
+            background: linear-gradient(135deg, rgba(192, 132, 252, 0.15), rgba(96, 165, 250, 0.15));
+            border: 1px solid rgba(192, 132, 252, 0.3);
+            padding: 15px; border-radius: 16px; margin-bottom: 25px;
+            backdrop-filter: blur(10px);
+        }
+        .player-score {
+            text-align: center; padding: 10px 20px; border-radius: 12px;
+            background: rgba(255,255,255,0.05); transition: all 0.3s;
+        }
+        .player-score.active {
+            background: rgba(192, 132, 252, 0.3);
+            border: 1px solid #c084fc;
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(192, 132, 252, 0.3);
+        }
+        .player-label { font-size: 0.9em; font-weight: 600; color: #e9d5ff; margin-bottom: 5px; }
+        .score-value { font-family: 'Comfortaa', cursive; font-size: 2em; font-weight: 700; color: #4ade80; }
+        .current-turn {
+            text-align: center; background: rgba(96, 165, 250, 0.2);
+            border: 1px solid rgba(96, 165, 250, 0.4);
+            padding: 10px 20px; border-radius: 12px;
+            font-weight: 600; color: #bfdbfe;
+        }
+        .grid-container { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; margin-bottom: 25px; }
+        .card { aspect-ratio: 1; cursor: pointer; position: relative; perspective: 1000px; }
+        .card-inner { position: relative; width: 100%; height: 100%; transition: transform 0.6s; transform-style: preserve-3d; }
+        .card.flipped .card-inner { transform: rotateY(180deg); }
+        .card.matched .card-inner { animation: matchPulse 0.6s ease; cursor: default; }
+        @keyframes matchPulse {
+            0%, 100% { transform: rotateY(180deg) scale(1); }
+            50% { transform: rotateY(180deg) scale(1.1); }
+        }
+        .card-face {
+            position: absolute; width: 100%; height: 100%; border-radius: 16px;
+            display: flex; align-items: center; justify-content: center;
+            backface-visibility: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+        .card-back {
+            background: linear-gradient(135deg, #c084fc 0%, #60a5fa 100%);
+            color: white; font-size: 2.5em; font-weight: bold;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+        .card-front {
+            background: rgba(255, 255, 255, 0.95); transform: rotateY(180deg);
+            border: 2px solid rgba(192, 132, 252, 0.5); padding: 10px;
+        }
+        .card-front img { width: 80%; height: 80%; object-fit: contain; }
+        .card:hover:not(.flipped):not(.matched) .card-inner {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(192, 132, 252, 0.4);
+        }
+        .buttons { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+        button {
+            padding: 12px 24px; border: none; border-radius: 50px;
+            font-family: 'Comfortaa', cursive; font-size: 1em; font-weight: 700;
+            cursor: pointer; transition: all 0.3s;
+        }
+        button:hover:not(:disabled) { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(0,0,0,0.3); }
+        button:disabled { opacity: 0.5; cursor: not-allowed; }
+        .btn-new { background: linear-gradient(135deg, #4ade80, #22c55e); color: white; }
+        .btn-pass { background: linear-gradient(135deg, #fbbf24, #f59e0b); color: white; }
+        .btn-help { background: linear-gradient(135deg, #60a5fa, #3b82f6); color: white; }
+        .modal-overlay {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(9, 10, 15, 0.8); backdrop-filter: blur(5px);
+            z-index: 1000; justify-content: center; align-items: center; padding: 20px;
+        }
+        .modal-overlay.active { display: flex; }
+        .modal {
+            background: linear-gradient(135deg, rgba(30, 41, 59, 0.95), rgba(15, 23, 42, 0.95));
+            border: 1px solid rgba(192, 132, 252, 0.3);
+            border-radius: 24px; padding: 35px; max-width: 450px; width: 100%;
+            text-align: center; box-shadow: 0 25px 50px rgba(0,0,0,0.5);
+            animation: modalPop 0.3s ease; color: #f8fafc;
+            backdrop-filter: blur(20px);
+        }
+        @keyframes modalPop { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        .modal h2 {
+            font-family: 'Comfortaa', cursive;
+            background: linear-gradient(135deg, #c084fc, #60a5fa);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            margin-bottom: 20px; font-size: 1.6em;
+        }
+        .quiz-question { font-size: 1.3em; margin-bottom: 25px; color: #e2e8f0; font-weight: 600; line-height: 1.4; }
+        .quiz-options { display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px; }
+        .quiz-btn {
+            padding: 15px; font-size: 1.1em; border-radius: 12px;
+            background: rgba(255, 255, 255, 0.08); color: #f8fafc;
+            border: 2px solid rgba(192, 132, 252, 0.3); transition: all 0.3s;
+        }
+        .quiz-btn:hover:not(:disabled) { background: rgba(192, 132, 252, 0.2); border-color: #c084fc; }
+        .quiz-btn.correct { background: rgba(74, 222, 128, 0.3); border-color: #4ade80; color: #86efac; }
+        .quiz-btn.wrong { background: rgba(248, 113, 113, 0.3); border-color: #f87171; color: #fca5a5; }
+        .winner-icon { font-size: 4em; margin-bottom: 15px; }
+        .final-score { font-size: 1.2em; margin: 15px 0; color: #cbd5e1; }
+        .close-modal {
+            margin-top: 15px;
+            background: linear-gradient(135deg, rgba(148, 163, 184, 0.8), rgba(100, 116, 139, 0.8));
+            color: white; padding: 12px 30px;
+        }
+        .help-text { text-align: left; line-height: 1.7; color: #cbd5e1; margin-bottom: 20px; }
+        .help-text ul { margin-left: 20px; }
+        .help-text li { margin-bottom: 10px; }
+        .help-text h3 { color: #c084fc; margin: 15px 0 10px; font-family: 'Comfortaa', cursive; }
+        .ai-thinking {
+            text-align: center; padding: 10px;
+            background: rgba(254, 243, 199, 0.1);
+            border: 1px solid rgba(251, 191, 36, 0.3);
+            border-radius: 8px; margin-bottom: 15px; display: none;
+            font-weight: 600; color: #fbbf24;
+        }
+        .ai-thinking.show { display: block; animation: pulse 1s ease-in-out infinite; }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.6; } }
+        .game-area { display: none; }
+        .game-area.show { display: block; }
+        .sending-status { text-align: center; margin-top: 15px; font-size: 0.95em; color: #94a3b8; display: none; }
+        .sending-status.show { display: block; }
+        @media (max-width: 600px) {
+            .grid-container { gap: 10px; }
+            h1 { font-size: 1.6em; }
+            .score-board { flex-direction: column; gap: 15px; }
+            .mode-selector { flex-direction: column; }
+        }
+        .back-to-exercises-btn {
+            position: fixed;
+            top: 30px;
+            left: 30px;
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, #c084fc, #60a5fa);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            color: white;
+            font-size: 1.2em;
+            font-weight: bold;
+            cursor: pointer;
+            z-index: 1000;
+            box-shadow: 0 4px 20px rgba(192, 132, 252, 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            opacity: 0.9;
+        }
+        .back-to-exercises-btn:hover {
+            transform: translateY(-5px) scale(1.1);
+            box-shadow: 0 8px 30px rgba(192, 132, 252, 0.6);
+            opacity: 1;
+        }
+        .back-to-exercises-btn .btn-text {
+            position: absolute;
+            left: 85px;
+            background: rgba(192, 132, 252, 0.15);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(192, 132, 252, 0.4);
+            padding: 10px 18px;
+            border-radius: 50px;
+            font-family: 'Comfortaa', cursive;
+            font-size: 1em;
+            font-weight: 600;
+            color: #e9d5ff;
+            white-space: nowrap;
+            opacity: 0;
+            transition: all 0.3s ease;
+            pointer-events: none;
+            letter-spacing: 0.5px;
+        }
+        .back-to-exercises-btn:hover .btn-text {
+            opacity: 1;
+            transform: translateX(5px);
+        }
+    </style>
+</head>
+<body>
+    <div class="stars-container" id="starsContainer"></div>
+    <div class="floating-element">⭐</div>
+    <div class="floating-element">🌟</div>
+    <div class="floating-element">✨</div>
+   <a href="../index.html" class="back-to-exercises-btn" onclick="localStorage.setItem('lastActiveTab', 'practice'); localStorage.setItem('returnFromExercise', 'true')">
+    <span>←</span>
+    <span class="btn-text">Back to exercises</span>
+</a>
+    <div class="game-container">
+        <header>
+            <h1>✨ Travel Phrasal Verbs Memory ✨</h1>
+            <p class="subtitle">Match pairs, answer the phrasal verb quiz to score!</p>
+        </header>
+
+        <div class="student-form" id="studentForm">
+            <h2>🌟 Welcome!</h2>
+            <p>Please enter your name to start the game</p>
+            <input type="text" class="name-input" id="studentName" placeholder="Your name"><br>
+            <button class="btn-start" onclick="startGame()">Start Game ✨</button>
+        </div>
+
+        <div class="game-area" id="gameArea">
+            <div class="mode-selector">
+                <button class="mode-btn active" onclick="setMode('2players')">👥 2 Players</button>
+                <button class="mode-btn" onclick="setMode('ai')">🤖 vs AI</button>
+            </div>
+
+            <div class="ai-thinking" id="ai-thinking">🤔 AI is thinking...</div>
+
+            <div class="score-board">
+                <div class="player-score" id="player1-score">
+                    <div class="player-label" id="p1-label">Player 1</div>
+                    <div class="score-value" id="score1">0</div>
+                </div>
+                <div class="current-turn" id="current-turn">Player 1's Turn</div>
+                <div class="player-score" id="player2-score">
+                    <div class="player-label" id="p2-label">Player 2</div>
+                    <div class="score-value" id="score2">0</div>
+                </div>
+            </div>
+
+            <div class="grid-container" id="game-grid"></div>
+
+            <div class="buttons">
+                <button class="btn-new" onclick="initGame()">🎮 New Game</button>
+                <button class="btn-pass" onclick="passTurn()">🔄 Pass Turn</button>
+                <button class="btn-help" onclick="showHelp()">❓ Help</button>
+            </div>
+            <div class="sending-status" id="sendingStatus"></div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="quiz-modal">
+        <div class="modal">
+            <h2>🎯 Phrasal Verb Quiz!</h2>
+            <div class="quiz-question" id="quiz-question"></div>
+            <div class="quiz-options" id="quiz-options"></div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="winner-modal">
+        <div class="modal">
+            <div class="winner-icon">🏆</div>
+            <h2>Game Over!</h2>
+            <div class="final-score" id="final-scores"></div>
+            <button class="close-modal" onclick="initGame()">Play Again</button>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="help-modal">
+        <div class="modal">
+            <h2>📖 How to Play</h2>
+            <div class="help-text">
+                <h3>2 Players Mode:</h3>
+                <ul>
+                    <li>Take turns flipping two cards to find matching pairs.</li>
+                    <li>When you find a match, answer the phrasal verb quiz.</li>
+                    <li><strong>Correct:</strong> +1 point, keep your turn.</li>
+                    <li><strong>Wrong:</strong> cards flip back, turn passes.</li>
+                </ul>
+                <h3>vs AI Mode:</h3>
+                <ul>
+                    <li>Play against the computer!</li>
+                    <li>AI will try to match cards and answer quizzes.</li>
+                    <li>Beat the AI to win!</li>
+                </ul>
+            </div>
+            <button class="close-modal" onclick="closeHelp()">Got it!</button>
+        </div>
+    </div>
+
+    <script>
+        const POWER_AUTOMATE_URL = 'https://default50bef10a64ce4efab7ceef7facd9c8.97.environment.api.powerplatform.com:443/powerautomate/automations/direct/cu/04/workflows/80320cf3242145f38cf2a9fe697b1bcf/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=pmVjt3_a2XgjEk7CxztVzXYwdUnHTs1Po59jq45gcyw';
+        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwCybdydUS2PDlskYqe2_jdbTns0MB_6e45CLWCkpr6jLB-d1zHm5ebBifFNLFoKhwr/exec';
+        
+        let studentName = '';
+        let gameStartTime = null;
+        
+        const quizQuestions = const quizQuestions = [
+    { text: "I always ___ early when I travel, even on weekends.", options: ["get up", "turn on", "give up", "fall down"], answer: "get up" },
+    { text: "Don't forget to ___ the lights when you leave the hotel room.", options: ["turn off", "turn on", "write down", "look for"], answer: "turn off" },
+    { text: "We ___ our hostel roommate immediately - we had so much in common!", options: ["got on well with", "broke up with", "gave up on", "came down with"], answer: "got on well with" },
+    { text: "I need to ___ my suitcase before we leave tomorrow.", options: ["put away", "find out", "call back", "hang out with"], answer: "put away" },
+    { text: "Can you ___ the taxi company and ask them to come back?", options: ["call back", "turn on", "get up", "break up"], answer: "call back" },
+    { text: "We completely ___ cash and had to walk back to the hotel.", options: ["ran out of", "grew up", "fell down", "kept in touch"], answer: "ran out of" },
+    { text: "I ___ with a terrible cold on the third day of my trip.", options: ["came down", "got up", "turned off", "put away"], answer: "came down" },
+    { text: "Always ___ important phone numbers before you travel.", options: ["write down", "look for", "give up", "find out"], answer: "write down" },
+    { text: "I spent an hour trying to ___ my passport in my bag.", options: ["look for", "turn on", "get on well", "break up"], answer: "look for" },
+    { text: "We decided to ___ our long journey and stop in Rome for a day.", options: ["break up", "grow up", "fall down", "turn off"], answer: "break up" },
+    { text: "I really wanted to ___ some locals and learn about their culture.", options: ["hang out with", "call back", "put away", "give up"], answer: "hang out with" },
+    { text: "I tripped on the stairs and ___ in front of everyone!", options: ["fell down", "got up", "ran out of", "came down"], answer: "fell down" },
+    { text: "We had to ___ to the hotel on foot because we missed the bus.", options: ["go back", "turn on", "write down", "find out"], answer: "go back" },
+    { text: "I tried to ___ the bus schedule online, but the website was down.", options: ["find out", "look for", "get on well", "keep in touch"], answer: "find out" },
+    { text: "Never ___ on your dreams, even when things get tough!", options: ["give up", "grow up", "break up", "fall down"], answer: "give up" },
+    { text: "I promise to ___ the amazing people I met on this trip.", options: ["keep in touch with", "hang out with", "get on well with", "call back"], answer: "keep in touch with" },
+    { text: "Next time, I'll ___ my GPS and actually use it!", options: ["turn on", "turn off", "get up", "put away"], answer: "turn on" },
+    { text: "Don't think travel is easy just because you ___ watching movies about it.", options: ["grew up", "got up", "came down", "fell down"], answer: "grew up" },
+    { text: "My best friend and I ___ last year, but we're still good friends.", options: ["broke up", "got on well", "kept in touch", "grew up"], answer: "broke up" },
+    { text: "I need to ___ where the nearest pharmacy is.", options: ["find out", "look for", "write down", "turn on"], answer: "find out" },
+    { text: "We ___ at the airport and decided to explore the city instead.", options: ["broke up our journey", "grew up", "fell down", "ran out of"], answer: "broke up our journey" },
+    { text: "Can you ___ me later? I'm in a meeting right now.", options: ["call back", "turn off", "get up", "give up"], answer: "call back" },
+    { text: "I always ___ my keys in the same place so I don't lose them.", options: ["put away", "look for", "find out", "write down"], answer: "put away" },
+    { text: "She ___ with the flu and had to stay in bed for three days.", options: ["came down", "got up", "turned on", "broke up"], answer: "came down" },
+    { text: "Even though it was hard, we didn't ___ and finished the hike.", options: ["give up", "grow up", "fall down", "run out of"], answer: "give up" },
+    { text: "When I was a kid, I wanted to ___ a famous traveler.", options: ["grow up to be", "break up with", "fall down", "turn off"], answer: "grow up to be" },
+    { text: "The WiFi stopped working, so I couldn't ___ my friends on Instagram.", options: ["keep in touch with", "hang out with", "call back", "get on well with"], answer: "keep in touch with" },
+    { text: "I had to ___ my backpack because it was too heavy.", options: ["put away", "look for", "give up", "find out"], answer: "put away" },
+    { text: "We ___ at the museum and spent three hours looking at the art.", options: ["hung out", "broke up", "came down", "grew up"], answer: "hung out" },
+    { text: "The elevator was broken, so we had to ___ the stairs.", options: ["go back up", "turn on", "write down", "look for"], answer: "go back up" },
+    { text: "I ___ my phone charger at home, so I couldn't charge my phone.", options: ["left behind", "grew up", "fell down", "ran out of"], answer: "left behind" },
+    { text: "Can you ___ the map? I don't know where we are.", options: ["turn on", "look for", "find out", "write down"], answer: "turn on" },
+    { text: "We ___ our flight because we arrived too late at the airport.", options: ["missed", "broke up", "grew up", "came down"], answer: "missed" },
+    { text: "I need to ___ a good restaurant for dinner tonight.", options: ["find", "look for", "put away", "give up"], answer: "find" },
+    { text: "The weather was terrible, so we ___ our picnic plans.", options: ["gave up", "grew up", "fell down", "turned off"], answer: "gave up" }
+];
+
+        const cardLetters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P'];
+        const travelIcons = [
+            'https://static.vecteezy.com/system/resources/previews/009/379/851/non_2x/suitcase-clipart-design-illustration-free-png.png',
+            'https://img.freepik.com/free-vector/cartoon-jet-plane-flight_1308-165151.jpg?semt=ais_user_personalization&w=740&q=80',
+            'https://pngimg.com/d/beach_PNG3.png',
+            'https://static.vecteezy.com/system/resources/thumbnails/024/521/101/small/cruise-ship-transparent-background-png.png',
+            'https://img.freepik.com/premium-vector/happy-cute-kids-taking-selfie-beach_723224-2039.jpg',
+            'https://clipart-library.com/2023/9i4pbBdAT.png',
+            'https://img.freepik.com/premium-vector/sunglasses-with-summer-beach-view-inside-vector-design-illustration_373791-3776.jpg?semt=ais_user_personalization&w=740&q=80',
+            'https://clipart-library.com/8300/1931/resort-hotel-clipart-xl.png'
+        ];
+
+        let gameState = {
+            cards: [], currentPlayer: 1, scores: { 1: 0, 2: 0 },
+            flippedCards: [], matchedPairs: 0, isProcessing: false,
+            currentQuiz: null, gameMode: '2players'
+        };
+
+        function startGame() {
+            const nameInput = document.getElementById('studentName');
+            studentName = nameInput.value.trim();
+            if (studentName === '') {
+                nameInput.style.borderColor = '#f87171';
+                alert('Please enter your name!');
+                return;
+            }
+            document.getElementById('studentForm').style.display = 'none';
+            document.getElementById('gameArea').classList.add('show');
+            gameStartTime = Date.now();
+            initGame();
+        }
+
+        function setMode(mode) {
+            gameState.gameMode = mode;
+            document.querySelectorAll('.mode-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            document.getElementById('p2-label').textContent = mode === 'ai' ? 'AI' : 'Player 2';
+            initGame();
+        }
+
+        function initGame() {
+            gameState = {
+                cards: [], currentPlayer: 1, scores: { 1: 0, 2: 0 },
+                flippedCards: [], matchedPairs: 0, isProcessing: false,
+                currentQuiz: null, gameMode: gameState.gameMode
+            };
+            const pairs = [];
+            travelIcons.forEach((icon, index) => {
+                pairs.push({ id: index * 2, pairId: index, icon: icon, letter: cardLetters[index * 2], isFlipped: false, isMatched: false });
+                pairs.push({ id: index * 2 + 1, pairId: index, icon: icon, letter: cardLetters[index * 2 + 1], isFlipped: false, isMatched: false });
+            });
+            gameState.cards = shuffleArray(pairs);
+            renderGrid(); updateScoreBoard(); closeAllModals();
+            document.getElementById('ai-thinking').classList.remove('show');
+            if (gameState.gameMode === 'ai' && Math.random() < 0.5) {
+                switchTurn();
+                setTimeout(aiTurn, 1000);
+            }
+        }
+
+        function shuffleArray(array) {
+            const newArray = [...array];
+            for (let i = newArray.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+            }
+            return newArray;
+        }
+
+        function renderGrid() {
+            const grid = document.getElementById('game-grid');
+            grid.innerHTML = '';
+            gameState.cards.forEach((card, index) => {
+                const cardEl = document.createElement('div');
+                cardEl.className = 'card';
+                if (card.isFlipped) cardEl.classList.add('flipped');
+                if (card.isMatched) cardEl.classList.add('matched');
+                cardEl.innerHTML = `<div class="card-inner"><div class="card-face card-back">${card.letter}</div><div class="card-face card-front"><img src="${card.icon}" alt="Travel image"></div></div>`;
+                cardEl.onclick = () => flipCard(index);
+                grid.appendChild(cardEl);
+            });
+        }
+
+        function flipCard(index) {
+            if (gameState.isProcessing) return;
+            if (gameState.cards[index].isFlipped || gameState.cards[index].isMatched) return;
+            if (gameState.flippedCards.length >= 2) return;
+            if (gameState.gameMode === 'ai' && gameState.currentPlayer === 2) return;
+            gameState.cards[index].isFlipped = true;
+            gameState.flippedCards.push(index);
+            renderGrid();
+            if (gameState.flippedCards.length === 2) checkMatch();
+        }
+
+        function checkMatch() {
+            gameState.isProcessing = true;
+            const [first, second] = gameState.flippedCards;
+            if (gameState.cards[first].pairId === gameState.cards[second].pairId) {
+                setTimeout(() => showQuiz(), 500);
+            } else {
+                setTimeout(() => {
+                    gameState.cards[first].isFlipped = false;
+                    gameState.cards[second].isFlipped = false;
+                    gameState.flippedCards = [];
+                    gameState.isProcessing = false;
+                    switchTurn();
+                    renderGrid();
+                    if (gameState.gameMode === 'ai' && gameState.currentPlayer === 2) {
+                        setTimeout(aiTurn, 1000);
+                    }
+                }, 1000);
+            }
+        }
+
+        function showQuiz() {
+            const question = quizQuestions[Math.floor(Math.random() * quizQuestions.length)];
+            gameState.currentQuiz = question;
+            document.getElementById('quiz-question').textContent = question.text;
+            const optionsContainer = document.getElementById('quiz-options');
+            optionsContainer.innerHTML = '';
+            question.options.forEach(opt => {
+                const btn = document.createElement('button');
+                btn.className = 'quiz-btn';
+                btn.textContent = opt;
+                btn.onclick = () => answerQuiz(opt);
+                optionsContainer.appendChild(btn);
+            });
+            document.getElementById('quiz-modal').classList.add('active');
+            if (gameState.gameMode === 'ai' && gameState.currentPlayer === 2) {
+                setTimeout(() => aiAnswer(), 1500);
+            }
+        }
+
+        function aiAnswer() {
+            const correct = Math.random() < 0.5;
+            const answer = correct ? gameState.currentQuiz.answer : 
+                          gameState.currentQuiz.options[Math.floor(Math.random() * gameState.currentQuiz.options.length)];
+            answerQuiz(answer);
+        }
+
+        function answerQuiz(answer) {
+            const buttons = document.querySelectorAll('.quiz-btn');
+            const correct = answer === gameState.currentQuiz.answer;
+            buttons.forEach(btn => {
+                btn.disabled = true;
+                if (btn.textContent === gameState.currentQuiz.answer) btn.classList.add('correct');
+                else if (btn.textContent === answer && !correct) btn.classList.add('wrong');
+            });
+            setTimeout(() => {
+                if (correct) {
+                    gameState.scores[gameState.currentPlayer]++;
+                    gameState.cards[gameState.flippedCards[0]].isMatched = true;
+                    gameState.cards[gameState.flippedCards[1]].isMatched = true;
+                    gameState.matchedPairs++;
+                    updateScoreBoard(); renderGrid();
+                    if (gameState.matchedPairs === 8) {
+                        setTimeout(() => showWinner(), 500);
+                    }
+                } else {
+                    gameState.cards[gameState.flippedCards[0]].isFlipped = false;
+                    gameState.cards[gameState.flippedCards[1]].isFlipped = false;
+                    switchTurn();
+                }
+                gameState.flippedCards = [];
+                gameState.isProcessing = false;
+                closeAllModals();
+                renderGrid();
+                if (gameState.gameMode === 'ai' && gameState.currentPlayer === 2 && gameState.matchedPairs < 8) {
+                    setTimeout(aiTurn, 1000);
+                }
+            }, 1200);
+        }
+
+        function aiTurn() {
+            if (gameState.matchedPairs >= 8 || gameState.isProcessing) return;
+            document.getElementById('ai-thinking').classList.add('show');
+            gameState.isProcessing = true;
+            const availableCards = gameState.cards.filter((c, i) => !c.isFlipped && !c.isMatched);
+            if (availableCards.length < 2) {
+                gameState.isProcessing = false;
+                document.getElementById('ai-thinking').classList.remove('show');
+                return;
+            }
+            setTimeout(() => {
+                const firstIndex = gameState.cards.indexOf(availableCards[0]);
+                gameState.cards[firstIndex].isFlipped = true;
+                gameState.flippedCards.push(firstIndex);
+                renderGrid();
+                setTimeout(() => {
+                    const remainingCards = gameState.cards.filter((c, i) => !c.isFlipped && !c.isMatched);
+                    let secondCard;
+                    if (Math.random() < 0.3 && gameState.flippedCards.length > 0) {
+                        const firstPairId = gameState.cards[gameState.flippedCards[0]].pairId;
+                        const matchCard = remainingCards.find(c => c.pairId === firstPairId);
+                        secondCard = matchCard || remainingCards[Math.floor(Math.random() * remainingCards.length)];
+                    } else {
+                        secondCard = remainingCards[Math.floor(Math.random() * remainingCards.length)];
+                    }
+                    const secondIndex = gameState.cards.indexOf(secondCard);
+                    gameState.cards[secondIndex].isFlipped = true;
+                    gameState.flippedCards.push(secondIndex);
+                    renderGrid();
+                    setTimeout(() => {
+                        checkMatch();
+                        document.getElementById('ai-thinking').classList.remove('show');
+                    }, 1000);
+                }, 1000);
+            }, 1000);
+        }
+
+        function switchTurn() {
+            gameState.currentPlayer = gameState.currentPlayer === 1 ? 2 : 1;
+            updateScoreBoard();
+        }
+
+        function updateScoreBoard() {
+            document.getElementById('score1').textContent = gameState.scores[1];
+            document.getElementById('score2').textContent = gameState.scores[2];
+            const turnText = gameState.gameMode === 'ai' && gameState.currentPlayer === 2 ? 
+                            "AI's Turn" : `Player ${gameState.currentPlayer}'s Turn`;
+            document.getElementById('current-turn').textContent = turnText;
+            document.getElementById('player1-score').classList.toggle('active', gameState.currentPlayer === 1);
+            document.getElementById('player2-score').classList.toggle('active', gameState.currentPlayer === 2);
+        }
+
+        function showWinner() {
+            const p1 = gameState.scores[1], p2 = gameState.scores[2];
+            let winner, winnerScore;
+            if (gameState.gameMode === 'ai') {
+                winner = p1 > p2 ? studentName : 'AI';
+                winnerScore = p1 > p2 ? p1 : p2;
+            } else {
+                winner = p1 > p2 ? 'Player 1' : (p2 > p1 ? 'Player 2' : 'Tie');
+                winnerScore = Math.max(p1, p2);
+            }
+            let message;
+            if (gameState.gameMode === 'ai') {
+                message = p1 > p2 ? '🎉 You win!' : (p2 > p1 ? '🤖 AI wins!' : "🤝 It's a tie!");
+            } else {
+                message = p1 > p2 ? '🎉 Player 1 wins!' : (p2 > p1 ? ' Player 2 wins!' : "🤝 It's a tie!");
+            }
+            const percentage = Math.round((winnerScore / 8) * 100);
+            const elapsed = Math.floor((Date.now() - gameStartTime) / 1000);
+            const minutes = Math.floor(elapsed / 60);
+            const seconds = elapsed % 60;
+            const timeSpent = minutes + ' min ' + seconds + ' sec';
+            sendResultsToTeams(winnerScore, 8, percentage, timeSpent);
+            document.getElementById('final-scores').innerHTML = `
+                <div>Winner: ${winner}</div>
+                <div>${gameState.gameMode === 'ai' ? 'You' : 'Player 1'}: ${p1} points</div>
+                <div>${gameState.gameMode === 'ai' ? 'AI' : 'Player 2'}: ${p2} points</div>
+                <div style="margin-top: 15px; font-size: 1.4em; color: #c084fc; font-weight: bold;">${message}</div>
+            `;
+            document.getElementById('winner-modal').classList.add('active');
+        }
+
+        async function sendResultsToTeams(correct, total, percentage, timeSpent) {
+            const statusDiv = document.getElementById('sendingStatus');
+            statusDiv.classList.add('show');
+            statusDiv.textContent = '📤 Sending results...';
+            statusDiv.style.color = '#94a3b8';
+            
+            const exerciseName = "Memory Phrasal Verbs";
+            const payload = {
+                student_name: studentName,
+                score: correct + '/' + total,
+                percentage: percentage + '%',
+                time: new Date().toLocaleString(),
+                exercise_name: exerciseName,
+                errors_text: 'Game completed',
+                time_spent: timeSpent,
+                tab_switches: '0'
+            };
+
+            try {
+                await fetch(POWER_AUTOMATE_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                statusDiv.textContent = '✅ Results sent to Teams!';
+                statusDiv.style.color = '#4ade80';
+            } catch (error) {
+                statusDiv.textContent = '⚠️ Teams error.';
+                statusDiv.style.color = '#f87171';
+            }
+
+            try {
+                await fetch(GOOGLE_SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        student_name: studentName,
+                        exercise_name: exerciseName,
+                        score: correct + '/' + total,
+                        percentage: percentage + '%',
+                        time: new Date().toLocaleString(),
+                        time_spent: timeSpent
+                    })
+                });
+            } catch (e) { console.log('Sheets error:', e); }
+
+            setTimeout(() => { statusDiv.classList.remove('show'); }, 6000);
+        }
+
+        function showHelp() { document.getElementById('help-modal').classList.add('active'); }
+        function closeHelp() { document.getElementById('help-modal').classList.remove('active'); }
+        function closeAllModals() { document.querySelectorAll('.modal-overlay').forEach(m => m.classList.remove('active')); }
+        function passTurn() { 
+            if (gameState.isProcessing || (gameState.gameMode === 'ai' && gameState.currentPlayer === 2)) return;
+            switchTurn(); 
+            if (gameState.gameMode === 'ai' && gameState.currentPlayer === 2) {
+                setTimeout(aiTurn, 1000);
+            }
+        }
+
+        function createStars() {
+            const container = document.getElementById('starsContainer');
+            for (let i = 0; i < 250; i++) {
+                const star = document.createElement('div'); star.classList.add('star');
+                star.style.left = Math.random() * 100 + '%'; star.style.top = Math.random() * 100 + '%';
+                const size = Math.random() * 3 + 1; star.style.width = size + 'px'; star.style.height = size + 'px';
+                star.style.setProperty('--duration', (Math.random() * 3 + 2) + 's');
+                star.style.setProperty('--max-opacity', Math.random() * 0.7 + 0.3);
+                star.style.animationDelay = Math.random() * 5 + 's';
+                container.appendChild(star);
+            }
+            for (let i = 0; i < 5; i++) {
+                const shootingStar = document.createElement('div');
+                shootingStar.style.position = 'absolute';
+                shootingStar.style.width = '150px'; shootingStar.style.height = '1px';
+                shootingStar.style.background = 'linear-gradient(90deg, rgba(255,255,255,0), rgba(255,255,255,0.3) 30%, rgba(255,255,255,0.8) 50%, rgba(255,255,255,0.3) 70%, rgba(255,255,255,0))';
+                shootingStar.style.top = Math.random() * 50 + '%';
+                shootingStar.style.left = '-' + Math.random() * 20 + '%';
+                shootingStar.style.transform = 'rotate(-35deg)';
+                shootingStar.style.filter = 'blur(0.5px)';
+                shootingStar.style.animation = `shootingStar ${Math.random() * 6 + 10}s ease-in-out ${Math.random() * 15}s infinite`;
+                container.appendChild(shootingStar);
+            }
+            for (let i = 0; i < 15; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('magic-particle');
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 5 + 's';
+                container.appendChild(particle);
+            }
+        }
+        const style = document.createElement('style');
+        style.innerHTML = `@keyframes shootingStar { 0% { transform: translateX(0) translateY(0) rotate(-35deg); opacity: 0; } 15% { opacity: 0.6; } 50% { opacity: 0.9; } 85% { opacity: 0.6; } 100% { transform: translateX(150vw) translateY(100vh) rotate(-35deg); opacity: 0; } }`;
+        document.head.appendChild(style);
+        createStars();
+        document.addEventListener('mousemove', (e) => {
+            if (Math.random() > 0.95) {
+                const spark = document.createElement('div');
+                spark.style.position = 'fixed';
+                spark.style.left = e.clientX + 'px'; spark.style.top = e.clientY + 'px';
+                spark.style.width = '3px'; spark.style.height = '3px';
+                spark.style.background = 'rgba(192, 132, 252, 0.8)';
+                spark.style.borderRadius = '50%';
+                spark.style.pointerEvents = 'none'; spark.style.zIndex = '9999';
+                spark.style.boxShadow = '0 0 10px rgba(192, 132, 252, 0.8)';
+                spark.style.animation = 'magicParticles 1s ease-out forwards';
+                document.body.appendChild(spark);
+                setTimeout(() => { spark.remove(); }, 1000);
+            }
+        });
+    </script>
+</body>
+</html>
